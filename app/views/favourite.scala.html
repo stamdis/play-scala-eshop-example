@@ -1,0 +1,51 @@
+@(items: Seq[Item])(implicit flash: Flash)
+
+@main2("Page Title") {
+<div class="col-2">
+
+</div>
+<div class="col-10">
+    <h4>Favourite</h4>
+    @if(items.nonEmpty) {
+    <table class="table">
+        <tr>
+            <th>Item ID</th>
+            <th>Title</th>
+            <th>Price</th>
+            <th></th>
+            <th></th>
+        </tr>
+        @for(item <- items){
+        <tr>
+            <td>@item.id</td>
+            <td><a href="/item/@item.id">@item.title</a></td>
+            <td>@item.price</td>
+            <td>
+                @helper.form(action = routes.CartController.add(item.id)) {
+                <input value="Add to cart" type="submit" class="btn btn-success btn-sm"/>
+                }
+            </td>
+            <td>
+                @helper.form(action = routes.FavouriteController.remove(item.id)) {
+                <input value="Remove" type="submit" class="btn btn-danger btn-sm"/>
+                }
+            </td>
+        </tr>
+        }
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                @helper.form(action = routes.FavouriteController.removeAll) {
+                <input value="Remove all" type="submit" class="btn btn-danger btn-sm"/>
+                }
+            </td>
+        </tr>
+    </table>
+    } else {
+    <p>You don't have any favourite items</p>
+    }
+</div>
+}

@@ -1,0 +1,42 @@
+@(items: Seq[Item], cat: Seq[Category], cat_active: Int)(implicit flash: Flash)
+
+@main2("User database") {
+    <div class="col-2">
+        <h4>Categories</h4>
+        <nav class="nav nav-pills flex-column">
+        <a class="nav-link @(if (cat_active == 0) "active")" href="/items?category=0">All</a>
+            @for(ca <- cat){
+            <a class="nav-link ml-@(ca.depth) @(if (cat_active == ca.id) "active")" href="/items?category=@ca.id">@ca.name</a>
+            }
+        </nav>
+    </div>
+    <div class="col-10">
+        <h4>Items</h4>
+        <table class="table table-hover">
+            <tr><th>Id</th><th>Price</th><th>Title</th><th>Description</th><th></th><th></th><th></th></tr>
+            @for(i <- items){
+            <tr>
+                <td>@i.id</td>
+                <td>@i.price</td>
+                <td>@i.title</td>
+                <td>@i.description</td>
+                <td>
+                    <a href="./item/@i.id" class="btn btn-primary btn-sm">View</a>
+                </td>
+                <td>
+                    @helper.form(action = routes.FavouriteController.add(i.id)) {
+                    <input value="Add to favourites" type="submit" class="btn btn-info btn-sm"/>
+                    }
+                </td>
+                <td>
+                    @helper.form(action = routes.CartController.add(i.id)) {
+                    <input value="Add to cart" type="submit" class="btn btn-success btn-sm"/>
+                    }
+                </td>
+            </tr>
+            }
+        </table>
+    </div>
+    </br>
+
+}

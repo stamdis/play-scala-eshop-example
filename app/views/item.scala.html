@@ -1,0 +1,40 @@
+@(item: Item)(implicit flash: Flash)
+
+@main2(item.title) {
+<div class="col-2">
+
+</div>
+<div class="col-10">
+    <div>
+        <h2>Item</h2>
+        <table>
+            <tr>
+                <th>Id</th>
+                <td>@item.id</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>@item.price</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>@item.title</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>@item.description</td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td>@item.category</td>
+            </tr>
+        </table>
+        @helper.form(action = routes.CartController.add(item.id)) {
+        <input value="Add to cart" type="submit"/>
+        }
+        @helper.form(action = routes.FavouriteController.add(item.id)) {
+        <input value="Add to favourites" type="submit"/>
+        }
+    </div>
+</div>
+}

@@ -1,0 +1,64 @@
+@(items: Seq[(Item,Int)])(implicit flash: Flash)
+
+@main2("Page Title") {
+<div class="col-2">
+
+</div>
+<div class="col-10">
+    <h4>Cart</h4>
+    @if(items.nonEmpty) {
+    <table class="table">
+        <tr>
+            <th>Item ID</th>
+            <th>Title</th>
+            <th>Amount</th>
+            <th>Price</th>
+            <th></th>
+            <th></th>
+        </tr>
+        @for(item <- items){
+        <tr>
+            <td>@item._1.id</td>
+            <td><a href="/item/@item._1.id">@item._1.title</a></td>
+            <td>@item._2</td>
+            <td>@(item._1.price * item._2)</td>
+            <td>
+                @helper.form(action = routes.CartController.add(item._1.id)) {
+                <input value="Increase" type="submit" class="btn btn-success btn-sm"/>
+                }
+            </td>
+            <td>
+                @helper.form(action = routes.CartController.remove(item._1.id)) {
+                <input value="Decrease" type="submit" class="btn btn-danger btn-sm"/>
+                }
+            </td>
+        </tr>
+        }
+        <tr>
+            <th></th>
+            <th>
+                Total
+            </th>
+            <th>
+                @(items.foldLeft(0)((Sum, Item) => Sum + Item._2))
+            </th>
+            <th>
+                @(items.foldLeft(0.0)((Sum, Item) => Sum + Item._2 * Item._1.price))
+            </th>
+            <th>
+                @helper.form(action = routes.CartController.buy) {
+                <input value="Issue Order" type="submit" class="btn btn-success btn-sm"/>
+                }
+            </th>
+            <th>
+                @helper.form(action = routes.CartController.removeAll) {
+                <input value="Remove all" type="submit" class="btn btn-danger btn-sm"/>
+                }
+            </th>
+        </tr>
+    </table>
+    } else {
+    <p>You don't have any items in your cart</p>
+    }
+</div>
+}

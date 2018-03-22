@@ -1,0 +1,46 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# An example controller showing a sample home page
+# GET     /                           controllers.HomeController.index
+# An example controller showing how to use dependency injection
+GET     /count                      controllers.CountController.count
+# An example controller showing how to write asynchronous code
+GET     /message                    controllers.AsyncController.message
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+GET     /login                  controllers.UserController.showLogin
++ nocsrf
+POST    /login                  controllers.UserController.login
+GET     /logout                 controllers.UserController.logout
+GET     /admin                  controllers.UserController.admin
+
+# ITEMS
+
+GET     /items                  controllers.UserController.index(category: Int ?= 0)
+GET     /item/:id               controllers.ItemController.show(id: Int)
+
+# CART
+
+GET     /cart                   controllers.CartController.getAll
++ nocsrf
+POST    /cart/add               controllers.CartController.add(id: Int)
++ nocsrf
+POST    /cart/delete            controllers.CartController.remove(id: Int)
++ nocsrf
+POST    /cart/delete/all        controllers.CartController.removeAll
++ nocsrf
+POST    /cart/buy               controllers.CartController.buy
+
+# FAVOURITE
+
+GET     /favourite              controllers.FavouriteController.getAll
++ nocsrf
+POST    /favourite/add          controllers.FavouriteController.add(id: Int)
++ nocsrf
+POST    /favourite/remove       controllers.FavouriteController.remove(id: Int)
++ nocsrf
+POST    /favourite/removeAll    controllers.FavouriteController.removeAll
